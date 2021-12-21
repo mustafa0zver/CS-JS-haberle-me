@@ -1,0 +1,39 @@
+﻿@page "/"
+@inject IJSRuntime JsRuntime;
+
+<button id="WriteToConsole0" @onclick="WriteToConsole">Tamam</button>
+<br />
+<p>Mesaj = 
+    
+    @message
+
+</p>
+
+
+@code {
+
+    protected static string message { get; set; }
+
+    [JSInvokable]
+    public static void CSCallBackMethod(string text)
+    {
+        App.IDEAL.MainPage.DisplayAlert("Uyarı", text + "ueyuışUyarı mesajı?", "Tamam", "İptal");
+        message = "index.razor 19";
+        //MauiApp2.MainPage
+        //Page.DisplayAlert("Uyarı", "Uyarı mesajı?", "Tamam", "İptal");
+    }
+
+    private async Task WriteToConsole()
+    {
+        var str = "";
+        str = await JsRuntime.InvokeAsync<string>("JSMessage","from cs");
+        App.IDEAL.MainPage.DisplayAlert("Uyarı", str + "ueyuışUyarı mesajı?", "Tamam", "İptal");
+        //App.IDEAL.MainPage.DisplayAlert("Uyarı", "Uyarı mesajı?", "Tamam", "İptal");
+    }
+
+    private async Task BlazorTestApp()
+    {
+        App.IDEAL.MainPage.DisplayAlert("Uyarı", "Uyarı mesajı?", "Tamam", "İptal");
+        //return "index.razor 29";
+    }
+}
